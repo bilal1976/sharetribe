@@ -88,6 +88,7 @@ This file follows the best practices from [keepachangelog.com](http://keepachang
 - Display bug in checkbox user fields [#3385](https://github.com/sharetribe/sharetribe/pull/3385)
 - Fixed a broken link when no date was selected for free "per day" and "per night" listings [#3410](https://github.com/sharetribe/sharetribe/pull/3410)
 - Allow to leave dropdown option unselected if it is not mandatory [#3446](https://github.com/sharetribe/sharetribe/pull/3446)
+- Fixed displaying design page [#3451](https://github.com/sharetribe/sharetribe/pull/3451)
 
 ## [7.3.1] - 2018-06-07
 
