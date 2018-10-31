@@ -1329,6 +1329,7 @@ CREATE TABLE `stripe_payments` (
   `available_on` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `buyer_commission_cents` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1441,7 +1442,7 @@ CREATE TABLE `transactions` (
   `booking_uuid` binary(16) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `commission_from_buyer` int(11) DEFAULT NULL,
-  `minimum_buyer_fee_cents` int(11) DEFAULT NULL,
+  `minimum_buyer_fee_cents` int(11) DEFAULT '0',
   `minimum_buyer_fee_currency` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_transactions_on_listing_id` (`listing_id`) USING BTREE,
@@ -2325,6 +2326,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20180720065907'),
 ('20180723115548'),
 ('20181029064728'),
-('20181029132748');
+('20181029132748'),
+('20181031072643');
 
 
