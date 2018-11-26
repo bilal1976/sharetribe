@@ -16,7 +16,7 @@
           %span.hidden-tablet
             = t("admin.communities.footer.title")
           = text_field_tag "community[footer_menu_links_attributes][#{f.index}][translation_attributes][#{locale_value}][title]",
-            f.object.title(locale_value), required: true, maxlength: 255, url: true,
+            f.object.title(locale_value), required: true, maxlength: 255,
             placeholder: t("admin.communities.footer.title_placeholder", locale: locale_value),
             disabled: disabled
 
