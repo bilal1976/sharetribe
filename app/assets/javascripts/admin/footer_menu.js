@@ -25,11 +25,14 @@ window.ST = window.ST || {};
     var fieldCount = fieldMap.length;
 
     var updateTableVisibility = function() {
+      var $menuLinksTable = $("#menu-links-table");
       var $menuLinksEmpty = $("#menu-links-empty");
 
       if(fieldCount > 0) {
+        $menuLinksTable.show();
         $menuLinksEmpty.hide();
       } else {
+        $menuLinksTable.hide();
         $menuLinksEmpty.show();
       }
     };
