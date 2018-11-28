@@ -22,14 +22,13 @@ describe Admin::CommunityMembershipsController, type: :controller do
       expect(memberships.size).to eq 3
     end
 
-    it 'filters accepted' do
-      membership1 = person1.community_membership
-      membership1.update_column(:status, 'deleted_user')
+    it 'filters admin' do
+      person1
       person2
-      get :index, params: {community_id: community.id, status: ['accepted']}
+      get :index, params: {community_id: community.id, status: ['admin']}
       service = assigns(:service)
       memberships = service.memberships
-      expect(memberships.size).to eq 2
+      expect(memberships.size).to eq 1
     end
 
     it 'filters banned' do
@@ -52,26 +51,25 @@ describe Admin::CommunityMembershipsController, type: :controller do
       expect(memberships.size).to eq 1
     end
 
-    it 'filters accepted or banned' do
-      membership1 = person1.community_membership
-      membership1.update_column(:status, 'deleted_user')
+    it 'filters admin or banned' do
+      person1
       membership1 = person2.community_membership
       membership1.update_column(:status, 'banned')
-      get :index, params: {community_id: community.id, status: ['accepted', 'banned']}
+      get :index, params: {community_id: community.id, status: ['admin', 'banned']}
       service = assigns(:service)
       memberships = service.memberships
       expect(memberships.size).to eq 2
     end
 
-    it 'filters accepted or banned or posting_allowed' do
+    it 'filters admin or banned or posting_allowed' do
       membership1 = person1.community_membership
-      membership1.update_column(:status, 'deleted_user')
+      membership1.update_column(:can_post_listings, true)
       membership1 = person2.community_membership
       membership1.update_column(:status, 'banned')
-      get :index, params: {community_id: community.id, status: ['accepted', 'banned', 'posting_allowed']}
+      get :index, params: {community_id: community.id, status: ['admin', 'banned', 'posting_allowed']}
       service = assigns(:service)
       memberships = service.memberships
-      expect(memberships.size).to eq 2
+      expect(memberships.size).to eq 3
     end
   end
 

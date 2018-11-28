@@ -272,7 +272,7 @@ en:
           all: "All statuses"
           selected: "Selected statuses: %{count}"
           selected_js: "Selected statuses: "
-          accepted: "Accepted"
+          admin: "Admin"
           banned: "Banned"
           posting_allowed: "Posting allowed"
       new_layout:

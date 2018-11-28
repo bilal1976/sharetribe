@@ -169,7 +169,7 @@ class Admin::Communities::MembershipService
     end
     if params[:status].present? && params[:status].is_a?(Array)
       statuses = []
-      statuses.push(CommunityMembership.accepted) if params[:status].include?(CommunityMembership::ACCEPTED)
+      statuses.push(CommunityMembership.admin) if params[:status].include?('admin')
       statuses.push(CommunityMembership.banned) if params[:status].include?(CommunityMembership::BANNED)
       statuses.push(CommunityMembership.posting_allowed) if params[:status].include?('posting_allowed')
       if statuses.size > 1
