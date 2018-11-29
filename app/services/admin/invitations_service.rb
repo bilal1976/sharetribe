@@ -14,7 +14,7 @@ class Admin::InvitationsService
   private
 
   def resource_scope
-    community.invitations.joins(:inviter).left_outer_joins(:community_memberships)
+    community.invitations.joins(:inviter).includes(:inviter)
   end
 
   def sort_column

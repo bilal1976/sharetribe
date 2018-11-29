@@ -14,7 +14,7 @@
       = t("admin.communities.invitations.used.no")
     - else
       = t("admin.communities.invitations.used.yes")
-  %td
+  -#%td
     - invitation.community_memberships.each do |community_membership|
       - p = community_membership.person
       - if p
