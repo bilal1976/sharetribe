@@ -5,55 +5,55 @@ describe Admin::CommunityConversationsController, type: :controller do
   let(:admin) { create_admin_for(community) }
   let(:person1) do
     FactoryGirl.create(:person, member_of: community,
-                        username: 'nicolala',
-                        given_name: 'Nicole',
-                        family_name: 'Robinson',
-                        emails: [FactoryGirl.build(:email, address: 'nicole@example.com')]
+                                username: 'nicolala',
+                                given_name: 'Nicole',
+                                family_name: 'Robinson',
+                                emails: [FactoryGirl.build(:email, address: 'nicole@example.com')]
                       )
   end
   let(:person2) do
     FactoryGirl.create(:person, member_of: community,
-                        username: 'tammyclark',
-                        given_name: 'Tammy',
-                        family_name: 'Clark',
-                        emails: [FactoryGirl.build(:email, address: 'tammy.clark@example.com')]
+                                username: 'tammyclark',
+                                given_name: 'Tammy',
+                                family_name: 'Clark',
+                                emails: [FactoryGirl.build(:email, address: 'tammy.clark@example.com')]
                       )
   end
   let(:person3) do
     FactoryGirl.create(:person, member_of: community,
-                        username: 'deniseh',
-                        given_name: 'Denise',
-                        family_name: 'Hill',
-                        emails: [FactoryGirl.build(:email, address: 'Denise@foo.com')]
+                                username: 'deniseh',
+                                given_name: 'Denise',
+                                family_name: 'Hill',
+                                emails: [FactoryGirl.build(:email, address: 'Denise@foo.com')]
                       )
   end
   let(:conversation1) do
     conversation = FactoryGirl.create(:conversation, community: community,
-                                      starting_page: Conversation::PROFILE)
+                                                     starting_page: Conversation::PROFILE)
     conversation.participants << person1
     conversation.participants << person2
     conversation.messages << FactoryGirl.create(:message, sender: person1,
-                                                conversation: conversation,
-                                                content: 'educational')
+                                                          conversation: conversation,
+                                                          content: 'educational')
     conversation.messages << FactoryGirl.create(:message, sender: person2,
-                                                conversation: conversation,
-                                                content: 'educative')
+                                                          conversation: conversation,
+                                                          content: 'educative')
     conversation.messages << FactoryGirl.create(:message, sender: person1,
-                                                conversation: conversation,
-                                                content: 'enlighten')
+                                                          conversation: conversation,
+                                                          content: 'enlighten')
     conversation
   end
   let(:conversation2) do
     conversation = FactoryGirl.create(:conversation, community: community,
-                                      starting_page: Conversation::PROFILE)
+                                                     starting_page: Conversation::PROFILE)
     conversation.participants << person1
     conversation.participants << person3
     conversation.messages << FactoryGirl.create(:message, sender: person1,
-                                                conversation: conversation,
-                                                content: 'devastate')
+                                                          conversation: conversation,
+                                                          content: 'devastate')
     conversation.messages << FactoryGirl.create(:message, sender: person3,
-                                                conversation: conversation,
-                                                content: 'overrun')
+                                                          conversation: conversation,
+                                                          content: 'overrun')
     conversation
   end
 
