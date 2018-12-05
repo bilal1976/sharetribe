@@ -3,7 +3,9 @@ class PeopleController < Devise::RegistrationsController
   skip_before_action :require_no_authentication, :only => [:new]
 
   before_action EnsureCanAccessPerson.new(
-    :id, error_message_key: "layouts.notifications.you_are_not_authorized_to_view_this_content"), only: [:update, :destroy]
+    :id, error_message_key: "layouts.notifications.you_are_not_authorized_to_view_this_content"), only: :destroy
+  before_action EnsureCanAccessPerson.new(
+    :id, allow_admin: true, error_message_key: "layouts.notifications.you_are_not_authorized_to_view_this_content"), only: :update
 
   LOOSER_ACCESS_CONTROL = [
     :check_email_availability,
@@ -173,6 +175,9 @@ class PeopleController < Devise::RegistrationsController
 
   def update
     target_user = Person.find_by!(username: params[:id], community_id: @current_community.id)
+    if @current_user != target_user
+      logger.info "ADMIN ACTION: admin='#{@current_user.id}' update person='#{target_user.id}' params=#{params.inspect}"
+    end
     # If setting new location, delete old one first
     if params[:person] && params[:person][:location] && (params[:person][:location][:address].empty? || params[:person][:street_address].blank?)
       params[:person].delete("location")
@@ -190,7 +195,7 @@ class PeopleController < Devise::RegistrationsController
     target_user.set_emails_that_receive_notifications(params[:person][:send_notifications])
 
     begin
-      person_params = person_update_params(params)
+      person_params = person_update_params(params, target_user)
 
       Maybe(person_params)[:location].each { |loc|
         person_params[:location] = loc.merge(location_type: :person)
@@ -205,7 +210,7 @@ class PeopleController < Devise::RegistrationsController
       if target_user.update_attributes(person_params.except(:email_attributes))
         if params[:person][:password]
           #if password changed Devise needs a new sign in.
-          sign_in target_user, :bypass => true
+          bypass_sign_in(target_user)
         end
 
         m_email_address.each {
@@ -362,46 +367,59 @@ class PeopleController < Devise::RegistrationsController
     )
   end
 
-  def person_update_params(params)
-    result = params.require(:person).permit(
-        :given_name,
-        :family_name,
-        :display_name,
-        :street_address,
-        :phone_number,
-        :image,
-        :description,
-        :password,
-        :password2,
-        :min_days_between_community_updates,
-        location: [:address, :google_address, :latitude, :longitude],
-        send_notifications: [],
-        email_attributes: [:address],
-        preferences: [
-          :email_from_admins,
-          :email_about_new_messages,
-          :email_about_new_comments_to_own_listing,
-          :email_when_conversation_accepted,
-          :email_when_conversation_rejected,
-          :email_about_new_received_testimonials,
-          :email_about_confirm_reminders,
-          :email_about_testimonial_reminders,
-          :email_about_completed_transactions,
-          :email_about_new_payments,
-          :email_about_new_listings_by_followed_people,
-          :empty_notification
-        ],
-        custom_field_values_attributes: [
-          :id,
-          :type,
-          :custom_field_id,
-          :person_id,
-          :text_value,
-          :numeric_value,
-          :'date_value(1i)', :'date_value(2i)', :'date_value(3i)',
-          selected_option_ids: []
-        ]
-      )
+  def restricted_for_admin_update_permit
+    [
+      :given_name,
+      :family_name,
+      :display_name,
+      :street_address,
+      :phone_number,
+      :image,
+      :description,
+      location: [:address, :google_address, :latitude, :longitude],
+      custom_field_values_attributes: [
+        :id,
+        :type,
+        :custom_field_id,
+        :person_id,
+        :text_value,
+        :numeric_value,
+        :'date_value(1i)', :'date_value(2i)', :'date_value(3i)',
+        selected_option_ids: []
+      ]
+    ]
+  end
+
+  def person_update_permit
+    [
+      :password,
+      :password2,
+      :min_days_between_community_updates,
+      send_notifications: [],
+      email_attributes: [:address],
+      preferences: [
+        :email_from_admins,
+        :email_about_new_messages,
+        :email_about_new_comments_to_own_listing,
+        :email_when_conversation_accepted,
+        :email_when_conversation_rejected,
+        :email_about_new_received_testimonials,
+        :email_about_confirm_reminders,
+        :email_about_testimonial_reminders,
+        :email_about_completed_transactions,
+        :email_about_new_payments,
+        :email_about_new_listings_by_followed_people,
+        :empty_notification
+      ]
+    ]
+  end
+
+  def person_update_params(params, target_user)
+    permit_values = restricted_for_admin_update_permit
+    if @current_user == target_user
+      permit_values += person_update_permit
+    end
+    result = params.require(:person).permit(permit_values)
     if result.key?(:custom_field_values_attributes)
       result[:custom_field_values_attributes].delete_if do |value|
         (value[:type] == "DropdownFieldValue" || value[:type] == "CheckboxFieldValue") &&
