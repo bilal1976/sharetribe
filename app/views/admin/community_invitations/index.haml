@@ -16,14 +16,14 @@
     %thead
       %tr
         %th
-          = render partial: "layouts/sort_link", locals: { column: "send_by",
-            direction: sort_link_direction("send_by"),
-            title: t("admin.communities.invitations.headers.send_by") }
+          = render partial: "layouts/sort_link", locals: { column: "sent_by",
+            direction: sort_link_direction("sent_by"),
+            title: t("admin.communities.invitations.headers.sent_by") }
         %th= t("admin.communities.invitations.headers.message")
         %th
-          = render partial: "layouts/sort_link", locals: { column: "send_to",
-            direction: sort_link_direction("send_to"),
-            title: t("admin.communities.invitations.headers.send_to") }
+          = render partial: "layouts/sort_link", locals: { column: "sent_to",
+            direction: sort_link_direction("sent_to"),
+            title: t("admin.communities.invitations.headers.sent_to") }
         %th
           = render partial: "layouts/sort_link", locals: { column: "used",
             direction: sort_link_direction("used"),

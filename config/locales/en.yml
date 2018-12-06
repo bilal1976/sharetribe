@@ -440,9 +440,9 @@ en:
           'yes': 'Yes'
           'no': 'No'
         headers:
-          send_by: Send by
+          sent_by: Sent by
           message: Message
-          send_to: Send to
+          sent_to: Sent to
           used: Used
       listings:
         listings: Listings

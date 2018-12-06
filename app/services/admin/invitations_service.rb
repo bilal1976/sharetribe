@@ -19,7 +19,7 @@ class Admin::InvitationsService
 
   def sort_column
     case params[:sort]
-    when 'send_by'
+    when 'sent_by'
       'CONCAT(people.given_name, people.family_name)'
     when 'send_to'
       'invitations.email'
