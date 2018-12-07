@@ -129,6 +129,11 @@ SQL
           ON mlt.menu_link_id = ml.id
         WHERE ml.community_id = #{id};
 
+      DELETE fr
+        FROM follower_relationships fr
+        LEFT JOIN people p ON fr.person_id = p.id
+        WHERE p.community_id = #{id};
+
       DELETE part
         FROM participations part
         LEFT JOIN people p ON part.person_id = p.id
@@ -327,6 +332,7 @@ SQL
     end
 
     delete_marketplace_db!(delete_marketplace_queries_final(community.id), query_sleep_time)
+    puts "Deletion complete for community #{community.id}"
   end
 
   namespace :marketplace do
