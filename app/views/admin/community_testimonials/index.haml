@@ -12,6 +12,14 @@
 .left-navi-section
   %h2= t("admin.communities.testimonials.testimonials")
 
+  = form_tag '', :method => :get do
+    .row
+      .col-6
+        = text_field_tag :q, params[:q], placeholder: t('admin.communities.testimonials.search_of_a_keyword_in_the_review')
+      .col-6
+        = submit_tag t("admin.communities.testimonials.search"), class: 'button search-button'
+        = link_to t("admin.communities.testimonials.reset_search"), admin_community_testimonials_path(@current_community.id)
+
   %span#admin_testimonials_count
     - pages = @service.testimonials[:tx_total_pages]
     - if pages == 0
