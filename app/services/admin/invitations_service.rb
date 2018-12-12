@@ -21,7 +21,7 @@ class Admin::InvitationsService
     case params[:sort]
     when 'sent_by'
       'CONCAT(people.given_name, people.family_name)'
-    when 'send_to'
+    when 'sent_to'
       'invitations.email'
     when 'used'
       'invitations.usages_left'

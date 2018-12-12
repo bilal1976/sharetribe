@@ -41,19 +41,19 @@ describe Admin::CommunityInvitationsController, type: :controller do
     it 'shows sort invitations' do
       invitation1
       invitation2
-      get :index, params: {community_id: community.id, sort: 'send_by', direction: 'asc'}
+      get :index, params: {community_id: community.id, sort: 'sent_by', direction: 'asc'}
       invitations = assigns(:service).invitations
       expect(invitations.first).to eq invitation1
       expect(invitations.last).to eq invitation2
-      get :index, params: {community_id: community.id, sort: 'send_by', direction: 'desc'}
+      get :index, params: {community_id: community.id, sort: 'sent_by', direction: 'desc'}
       invitations = assigns(:service).invitations
       expect(invitations.first).to eq invitation2
       expect(invitations.last).to eq invitation1
-      get :index, params: {community_id: community.id, sort: 'send_to', direction: 'asc'}
+      get :index, params: {community_id: community.id, sort: 'sent_to', direction: 'asc'}
       invitations = assigns(:service).invitations
       expect(invitations.first).to eq invitation2
       expect(invitations.last).to eq invitation1
-      get :index, params: {community_id: community.id, sort: 'send_to', direction: 'desc'}
+      get :index, params: {community_id: community.id, sort: 'sent_to', direction: 'desc'}
       invitations = assigns(:service).invitations
       expect(invitations.first).to eq invitation1
       expect(invitations.last).to eq invitation2
