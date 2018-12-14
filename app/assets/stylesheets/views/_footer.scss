@@ -271,5 +271,11 @@ $footer__social-media-margin: 18px;
     @media #{$mobile}, #{$mobile-landscape}, #{$tablet} {
       display: none;
     }
+    .footer__link-list-item {
+      display: list-item;
+      .footer__link {
+        padding: 0 16px;
+      }
+    }
   }
 }
