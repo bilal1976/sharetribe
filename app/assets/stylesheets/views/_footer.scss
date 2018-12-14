@@ -268,6 +268,8 @@ $footer__social-media-margin: 18px;
   }
   .footer__link-list {
     float: left;
+    text-align: left;
+    margin: 0;
     @media #{$mobile}, #{$mobile-landscape}, #{$tablet} {
       display: none;
     }
