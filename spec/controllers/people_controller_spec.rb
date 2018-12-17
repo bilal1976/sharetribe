@@ -486,7 +486,7 @@ describe PeopleController, type: :controller do
       expect(person.family_name).to eq "Wise"
       expect(person.custom_field_values.count).to eq 5
       expect(person.custom_field_value_for(field2).display_value).to eq ''
-     end
+    end
   end
 
   def community_host(community)
