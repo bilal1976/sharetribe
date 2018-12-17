@@ -420,7 +420,7 @@ class PeopleController < Devise::RegistrationsController
       permit_values += person_update_permit
     end
     result = params.require(:person).permit(permit_values)
-    if result.key?(:custom_field_values_attributes)
+    if false # result.key?(:custom_field_values_attributes)
       result[:custom_field_values_attributes].delete_if do |value|
         (value[:type] == "DropdownFieldValue" || value[:type] == "CheckboxFieldValue") &&
           value[:selected_option_ids].delete_if{|x| x.blank?}.empty?
